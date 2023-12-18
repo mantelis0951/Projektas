@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}<title>Search Results</title>{% endblock %}
+
+{% block content %}
+    <div class="container mt-3">
+        <h2 class="display-4 text-white">Search Results for "{{ query }}"</h2>
+        <div class="row">
+            {% for result in results %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <!-- Check if the vehicle has a cover photo -->
+                        {% if result.cover %}
+                            <img src="{{ result.cover.url }}" alt="{{ result.manufacturer }} {{ result.model }}" class="card-img-top">
+                        {% else %}
+                            <!-- If no cover photo, use a default image -->
+                            <img src="{% static 'default.png' %}" alt="Default Image" class="card-img-top">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ result.manufacturer }} {{ result.model }}</h5>
+                            <a href="{% url 'vehicle' result.id %}" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

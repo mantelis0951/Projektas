@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="display-4 text-center text-light">Automobilių Nuoma</h1>
+    <p class="lead text-center text-light">Sveiki atvykę į CarRent! Mes padėsime Jums atrasti idealų automobilį.</p>
+
+    <!-- Add the search form -->
+    <form method="get" action="{% url 'index' %}" class="mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="car" class="form-label">Automobilio modelis:</label>
+            <input type="text" name="car" class="form-control" placeholder="Įveskite modelį">
+        </div>
+        <div class="col-md-4">
+            <label for="manufacturer" class="form-label">Automobilio markė:</label>
+            <select name="manufacturer" class="form-control">
+                <option value="">Pasirinkite markę</option>
+                {% for manufacturer in manufacturers %}
+                    <option value="{{ manufacturer }}">{{ manufacturer }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="year" class="form-label">Gamintojo metai:</label>
+            <select name="year" class="form-control">
+                <option value="">Pasirinkite metus</option>
+                {% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="price" class="form-label">Nuomos kaina:</label>
+            <input type="text" name="price" class="form-control" placeholder="Įveskite kainą">
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <button type="submit" class="btn btn-primary">Ieškoti</button>
+    </div>
+</form>
+
+
+    <!-- Display search results -->
+   {% if request.GET.car or request.GET.manufacturer or request.GET.year or request.GET.price %}
+  <div class="mt-4">
+    <h2 class="text-center text-light">Paieškos rezultatai:</h2>
+    <ul class="list-group list-group-flush">
+      {% for contract in rental_contracts %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>Automobilio marke:</strong> {{contract.vehicle.manufacturer}} <br>
+            <strong>Automobilio modelis:</strong> {{ contract.vehicle.model }}<br>
+            <strong>Gamintojo metai:</strong> {{ contract.vehicle.year }}<br>
+            <strong>Nuomos kaina:</strong> {{ contract.vehicle.price }} €<br>
+          </div>
+          <div>
+            <!-- Add a button to rent the vehicle -->
+            <form method="post" action="{% url 'rent_vehicle' %}">
+              {% csrf_token %}
+              <input type="hidden" name="contract_id" value="{{ contract.id }}">
+              <button type="submit" class="btn btn-primary">Issinuomoti</button>
+            </form>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% else %}
+  <p class="mt-4 text-center text-light">Nerasta rezultatų.</p>
+{% endif %}
+  </div>
+{% endblock %}

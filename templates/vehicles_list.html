@@ -1,0 +1,44 @@
+<!-- templates/CarSell/vehicles_list.html -->
+{% extends "base.html" %}
+
+{% block title %}<title>Vehicle List</title>{% endblock %}
+
+{% block content %}
+    <div class="container mt-3">
+        <h2 class="display-4 text-white">Vehicle List</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Manufacturer</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Rental Price</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in all_vehicles %}
+                    <tr>
+                        <th scope="row">{{ vehicle.id }}</th>
+                        <td>{{ vehicle.manufacturer }}</td>
+                        <td>{{ vehicle.model }}</td>
+                        <td>{{ vehicle.rental_price }}</td>
+                        <td>
+                            <span class="{% if vehicle.status == 'a' %}text-white
+                                    {% elif vehicle.status == 'p' %}text-danger
+                                    {% elif vehicle.status == 'g' %}text-success
+                                    {% elif vehicle.status == 'r' %}text-warning
+                            {% endif %}">
+                                {{ vehicle.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{% url 'vehicle' vehicle.id %}" class="btn btn-primary">Details</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Mano paimta knyga:</h1>
+    <hr>
+    <ul>
+        <img class="rounded-circle" src="{{ object.reader.profilis.nuotrauka.url }}">
+        <!-- Assuming rental_contract is passed to the template -->
+        <li><strong class="{% if object.is_overdue %}text-danger{% endif %}">Pavadinimas: {{ rental_contract.vehicle.manufacturer }}</strong></li>
+        <li><strong>Gražinimo terminas:</strong> {{ rental_contract.end_date }}</li>
+        <br/>
+    </ul>
+{% endblock %}

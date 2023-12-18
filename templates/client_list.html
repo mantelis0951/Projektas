@@ -1,0 +1,21 @@
+<!-- templates/CarSell/client_list.html -->
+{% extends "base.html" %}
+
+{% block title %}<title>Klientu sąrašas</title>{% endblock %}
+
+{% block content %}
+    <div class="container mt-3">
+        <h2 class="display-4 text-white">Klientu sąrašas</h2>
+        <ul class="list-group">
+            {% for client in clients %}
+                <li class="list-group-item">
+                    <strong>ID:</strong> {{ client.id }},
+                    <strong>Vardas:</strong> {{ client.first_name }},
+                    <strong>Pavarde:</strong> {{ client.last_name }},
+                    <strong>Telefono Numeris:</strong> {{ client.contact_number }},
+                    <strong>Asmens kodas:</strong> {{ client.personal_code }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1 class="display-4 text-left text-light">Automobilių Nuoma</h1>
+
+    <p class="lead text-light">Automobilių sąrašas:</p>
+
+    <!-- Form for Search -->
+    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="get" action="{% url 'nuoma' %}">
+      <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search" name="q">
+    </form>
+
+    <!-- Bootstrap Table for Rental Contracts -->
+    <div class="table-responsive">
+      <style>
+        .table,
+        .table-striped tbody tr {
+          color: white;
+        }
+
+        .no-results {
+          text-align: center;
+          font-size: larger;
+        }
+      </style>
+
+      {% if rental_contracts %}
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Marke</th>
+              <th scope="col">Modelis</th>
+              <th scope="col">Metai</th>
+              <th scope="col">Nuomos kaina</th>
+              <th scope="col">Veiksmai</th>  <!-- Pridėjau stulpelį su pavadinimu "Veiksmai" -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for contract in rental_contracts %}
+              <tr>
+                <th scope="row">{{ contract.id }}</th>
+                <td>{{ contract.vehicle.manufacturer }}</td>
+                <td>{{ contract.vehicle.model }}</td>
+                <td>{{ contract.vehicle.year }}</td>
+                <td>{{ contract.calculate_total_cost }}</td>
+                <td>
+                  <a href="{% url 'nuoma_detaliau' nuoma_detaliau=contract.id %}" class="btn btn-info btn-sm">
+                    <i class="fas fa-info-circle"></i> Detaliau
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="text-light no-results">Atitinkamų rezultatų nerasta.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

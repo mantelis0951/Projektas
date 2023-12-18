@@ -1,0 +1,21 @@
+/* styles.css */
+
+/* Set text color for the entire table */
+.table,
+.table-striped tbody tr {
+  color: white;
+}
+
+/* Style for the "Detaliau" button */
+.btn-primary {
+  background-color: #ffc107; /* Use the color you prefer for the button background */
+  color: #212529; /* Use a dark color for the button text */
+}
+
+.btn-primary:hover {
+  background-color: #ffca2b; /* Use a slightly different color on hover */
+}
+
+.custom-table td {
+    color: white;
+}

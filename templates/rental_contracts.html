@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load paginator %}
+{% block content %}
+
+<style>
+
+
+    .table,
+    .table-striped tbody tr {
+        color: white !important; /* Pritaikome !important, kad užtikrintume, jog ši taisyklė bus taikoma */
+    }
+
+    .no-results {
+        text-align: center;
+        font-size: larger;
+        color: white !important; /* Pritaikome !important, kad užtikrintume, jog ši taisyklė bus taikoma */
+    }
+</style>
+
+  <div class="container mt-4">
+    <h1 class="display-4 text-left text-light">Rental Contracts</h1>
+
+    <!-- Bootstrap Table for Rental Contracts -->
+    <div class="table-responsive">
+      <style>
+        .table,
+        .table-striped tbody tr {
+          color: black; /* Assuming your text color should be black */
+        }
+
+        .no-results {
+          text-align: center;
+          font-size: larger;
+        }
+      </style>
+
+      {% if all_rental_contracts %}
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Client</th>
+              <th scope="col">Vehicle</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Deposit</th>
+              <th scope="col">Total Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for contract in all_rental_contracts %}
+              <tr>
+                <th scope="row">{{ contract.id }}</th>
+                <td>{{ contract.client }}</td>
+                <td>{{ contract.vehicle }}</td>
+                <td>{{ contract.start_date }}</td>
+                <td>{{ contract.end_date }}</td>
+                <td>{{ contract.deposit }}</td>
+                <td>{{ contract.calculate_total_cost }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% show_pagination_links all_rental_contracts %}
+      {% else %}
+        <p class="text-light no-results">No rental contracts available.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

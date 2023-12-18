@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-3">
+            {% if vehicle.photo1 %}
+            <img src="{{ vehicle.photo1.url }}" alt="Vehicle Image 1" class="img-fluid mb-2" style="width: 250px; height: 250px;">
+            {% else %}
+            No Image
+            {% endif %}
+        </div>
+        <div class="col-md-3">
+            {% if vehicle.photo2 %}
+            <img src="{{ vehicle.photo2.url }}" alt="Vehicle Image 2" class="img-fluid mb-2" style="width: 250px; height: 250px;">
+            {% else %}
+            No Image
+            {% endif %}
+        </div>
+        <div class="col-md-3">
+            {% if vehicle.photo3 %}
+
+            <img src="{{ vehicle.photo3.url }}" alt="Vehicle Image 3" class="img-fluid mb-2" style="width: 250px; height: 250px;">
+            {% else %}
+            No Image
+            {% endif %}
+        </div>
+        <div class="col-md-3">
+            {% if vehicle.photo4 %}
+            <img src="{{ vehicle.photo4.url }}" alt="Vehicle Image 4" class="img-fluid mb-2" style="width: 250px; height: 250px;">
+            {% else %}
+            No Image
+            {% endif %}
+        </div>
+    </div>
+
+     <div class="mt-3">
+        <h2 class="text-light">Vehicle Information</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Manufacturer: {{ vehicle.manufacturer }}</li>
+            <li class="list-group-item">Model: {{ vehicle.model }}</li>
+            <li class="list-group-item">Year: {{ vehicle.year }}</li>
+            <li class="list-group-item">Color: {{ vehicle.color }}</li>
+            <li class="list-group-item">Fuel Type: {{ vehicle.fuel_type }}</li>
+            <li class="list-group-item">Body Type: {{ vehicle.body_type }}</li>
+            <li class="list-group-item">Rental Price: {{ vehicle.rental_price }}</li>
+            <li class="list-group-item">Deposit: {{ vehicle.deposit }}</li>
+
+            <li class="list-group-item">
+                <span class="font-weight-bold {% if vehicle.status == 'a' %}text-blue
+                             {% elif vehicle.status == 'p' %}text-danger
+                             {% elif vehicle.status == 'g' %}text-success
+                             {% elif vehicle.status == 'r' %}text-warning
+                             {% endif %}">
+                    Status: {{ vehicle.get_status_display }}
+                </span>
+                {% if user.is_authenticated %}
+                    <div class="mt-3">
+                        <a href="{% url 'success_page' %}" class="btn btn-primary">Nuomotis</a>
+                    </div>
+                {% endif %}
+            </li>
+            <li class="list-group-item">
+                <h4>Atsiliepimai:</h4>
+                {% if vehicle.carreview_set.all %}
+                    <ul class="list-unstyled">
+                        {% for review in vehicle.carreview_set.all %}
+                            <li class="mb-3">
+                                <strong>{{ review.reviewer }}</strong>, <em>{{ review.date_created|date:"F j, Y" }}</em>
+                                <p>{{ review.content }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Automobilis neturi atsiliepimų</p>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+
+    {% if user.is_authenticated %}
+        <div class="fieldWrapper mt-3">
+            <hr>
+            <h4 class="text-white">Palikite atsiliepimą:</h4>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.content }}
+                <br>
+                <button type="submit" class="btn btn-primary">Išsaugoti</button>
+            </form>
+        </div>
+
+    {% endif %}
+</div>
+{% endblock %}

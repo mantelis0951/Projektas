@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block title %}<title>CarSell</title>{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% load static %}
+    <link rel="icon" href="{% static 'faviconas.png' %}" type="image/png">
+    <link rel="shortcut icon" href="{% static 'faviconas.png' %}" type="image/png">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            background-image: url('{% static 'fondas.jpg' %}');
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="bg-dark text-white py-3">
+                    <div class="container">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <a href="/" class="d-flex align-items-center text-white text-decoration-none">
+                                    <svg class="bi me-2" width="40" height="32" role="img"
+                                         aria-label="Bootstrap">
+                                        <use xlink:href="#bootstrap"></use>
+                                    </svg>
+                                </a>
+
+                                <ul class="nav">
+                                    {% if not user.is_authenticated %}
+                                        <li class="nav-item"><a href="{% url 'index' %}"
+                                                                class="nav-link text-white">Pradžia</a>
+                                        </li>
+                                        <li class="nav-item"><a href="{% url 'vehicles' %}"
+                                                                class="nav-link text-white">Visi Automobiliai</a></li>
+                                    {% endif %}
+
+                                    {% if user.is_authenticated %}
+                                    <li class="nav-item"><a href="{% url 'my-rentals' %}"
+                                                                    class="nav-link text-white">Mano Nuoma</a></li>
+                                        {% if user.is_superuser %}
+                                            <li class="nav-item"><a href="{% url 'index' %}"
+                                                                    class="nav-link text-white">Pradžia</a></li>
+                                            <li class="nav-item"><a href="{% url 'vehicles' %}"
+                                                                    class="nav-link text-white">Visi Automobiliai</a></li>
+                                            <li class="nav-item"><a href="{% url 'rental_contracts' %}"
+                                                                    class="nav-link text-white">NuomaAdmin</a></li>
+                                            <li class="nav-item"><a href="{% url 'clients' %}"
+                                                                    class="nav-link text-white">KlientaiAdmin</a></li>
+                                            <li class="nav-item"><a href="{% url 'payments' %}"
+                                                                    class="nav-link text-white">ApmokejimaiAdmin</a></li>
+                                            <li class="nav-item"><a href="{% url 'all_vehicles' %}"
+                                                                    class="nav-link text-white">VisiAutomobiliaiAdmin</a></li>
+                                        {% else %}
+                                            <li class="nav-item"><a href="{% url 'index' %}"
+                                                                    class="nav-link text-white">Pradžia</a></li>
+                                            <li class="nav-item"><a href="{% url 'vehicles' %}"
+                                                                    class="nav-link text-white">Visi Automobiliai</a></li>
+                                        {% endif %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+
+                            <form method="get" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
+                                  action="{% url 'search_results' %}">
+                                <input type="search" class="form-control form-control-dark" placeholder="Paieška..."
+                                       aria-label="Search" name="query">
+
+                            </form>
+
+                            <div class="text-end">
+                                {% if user.is_authenticated %}
+                                    <a href="{% url 'profilis' %}" class="btn btn-outline-light me-2">{{ user.get_username }}</a>
+                                    <a href="{% url 'logout' %}" class="btn btn-outline-light me-2">Atsijungti</a>
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Login</a>
+                                    <a href="{% url 'register' %}" class="btn btn-warning">Sign-up</a>
+
+
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <div class="container mt-3">
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'info' %}success{% endif %}" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-dark text-white text-center py-2">
+    &copy; {{ year }} CarSell. All rights reserved.
+</footer>
+
+
+</body>
+
+</html>

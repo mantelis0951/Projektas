@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="card text-center" style="border-radius: 35px;">
+            <div class="card-body">
+                <h1 class="card-title display-4 text-dark">Nuoma sėkminga!</h1>
+                <p class="card-text lead text-dark">Dėkojame, kad pasirinkote "CarRent". Jūsų nuoma patvirtinta.</p>
+                <img src="{% static 'images/success11.png' %}" alt="Success Image" class="img-fluid mt-4" style="max-width: 300px;">
+                <p class="text-light mt-4 text-dark">Registruotu el. pašto adresu buvo išsiųstas patvirtinimo el. laiškas.</p>
+                <a href="{% url 'index' %}" class="btn btn-primary mt-3">Grįžti į Pradžią</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

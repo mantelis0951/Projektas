@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <h1 class="display-4 text-left text-light">Automobilio Nuoma</h1>
+
+    <!-- Bootstrap Table for Rental Contract Details -->
+    <div class="table-responsive">
+      <style>
+        .table,
+        .table-striped tbody try {
+          background-color: transparent; /* Transparent background */
+          color: white; /* White text color */
+        }
+      </style>
+
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Marke</th>
+            <th scope="col">Modelis</th>
+            <th scope="col">Metai</th>
+            <th scope="col">Kebulo tipas</th>
+            <th scope="col">Kuro tipas</th>
+            <th scope="col">Automobilio kaina</th>
+            <th scope="col">Nuomos kaina</th>
+            <th scope="col">Depozitas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{ nuoma_detaliau.id }}</th>
+            <td>{{ nuoma_detaliau.vehicle.manufacturer }}</td>
+            <td>{{ nuoma_detaliau.vehicle.model }}</td>
+            <td>{{ nuoma_detaliau.vehicle.year }}</td>
+            <td>{{ nuoma_detaliau.vehicle.body_type}}</td>
+            <td>{{ nuoma_detaliau.vehicle.fuel_type }}</td>
+            <td>{{ nuoma_detaliau.vehicle.price }}</td>
+            <td>{{ nuoma_detaliau.calculate_total_cost }}</td>
+            <td>{{ nuoma_detaliau.deposit }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

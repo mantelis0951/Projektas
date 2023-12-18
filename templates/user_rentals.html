@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load paginator %}
+
+{% block content %}
+<div class="container mt-3">
+    <form method="get" class="form-inline my-2 my-lg-0">
+        <label class="ml-2 text-white">Rūšiuoti pagal:</label>
+        <select name="sort_by" class="form-control ml-2" onchange="this.form.submit()">
+    <option value="status" {% if sort_by == 'end_date' %}selected{% endif %}>END DATE</option>
+    <!-- Add more options for other fields if needed -->
+</select>
+    </form>
+
+    <div class="mt-3">
+        {% if user_rentals %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+              <th scope="col">Client</th>
+              <th scope="col">Vehicle</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">End Date</th>
+              <th scope="col">Deposit</th>
+              <th scope="col">Total Cost</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for rental in user_rentals %}
+            <tr>
+                <th scope="row">{{ rental.id }}</th>
+                <td>{{ rental.client }}</td>
+                <td>{{ rental.vehicle }}</td>
+                <td>{{ rental.start_date }}</td>
+                <td>{{ rental.end_date }}</td>
+                <td>{{ rental.deposit }}</td>
+                <td>{{ rental.calculate_total_cost }}</td>
+              </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% show_pagination_links user_rentals %}
+        {% else %}
+        <p>Nerasta jokių rezultatų pagal paiešką.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

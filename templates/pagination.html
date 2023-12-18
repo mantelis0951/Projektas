@@ -1,0 +1,98 @@
+<style>
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .page-item {
+        margin: 0 5px;
+    }
+
+    .page-link {
+        padding: 10px;
+        border: 1px solid #4CAF50;
+        border-radius: 5px;
+        background: #4CAF50;
+        color: #000 !important; /* Suteikia didesnį prioritetą teksto spalvai */
+        text-decoration: none;
+        display: inline-block;
+        transition: color 0.3s;
+        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .page-link:hover {
+        background: #fff;
+        color: #000;
+        border-color: #000;
+    }
+
+    .active .page-link {
+        color: #fff;
+        background: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+    .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+    .page-item.active .page-link {
+        color: #000;
+        background: #fff;
+        border-color: #4CAF50;
+    }
+
+    .page-item.active .page-link:hover {
+        background: #fff; /* Nereikalinga, bet palieka mygtuką baltą viršuj */
+        color: #000;
+        border-color: #4CAF50;
+</style>
+
+
+
+
+
+<div class="pagination">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            {% if current_list.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?{{ parameter_name }}=1" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?{{ parameter_name }}={{ current_list.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+
+            {% for i in current_list.paginator.page_range %}
+            <li class="page-item {% if i == current_list.number %}active{% endif %}">
+                <a class="page-link" href="?{{ parameter_name }}={{ i }}">{{ i }}</a>
+            </li>
+            {% endfor %}
+
+            {% if current_list.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?{{ parameter_name }}={{ current_list.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?{{ parameter_name }}={{ current_list.paginator.num_pages }}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
