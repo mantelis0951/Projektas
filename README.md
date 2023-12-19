@@ -20,7 +20,7 @@ Sveiki atvykę į Automobilių Nuomos Puslapio dokumentaciją. Šis puslapis buv
 
 ## Pradžiamokslis
 
-1. Klonuokite projektą: `git clone https://github.com/tavo-vartotojo-vardas/automobiliu-nuoma.git`
+1. Klonuokite projektą: `git clone https://github.com/mantelis0951/Projektas.git`
 2. Sukurkite ir aktyvuokite virtualią aplinką: `python -m venv venv` ir `source venv/bin/activate`
 3. Įdiekite reikiamas priklausomybes: `pip install -r requirements.txt`
 4. Paleiskite migracijas: `python manage.py migrate`
